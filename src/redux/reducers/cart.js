@@ -3,13 +3,20 @@ import * as ActionTypes from "../action-types";
 const initialData = [];
 
 const cart = (state = initialData, action) => {
-  let photo;
+  let pokemones;
   switch (action.type) {
     case ActionTypes.ADD_TO_CART:
-      photo = { ...action.payload, quantity: 1 };
-      return [photo];
+      pokemones = localStorage.getItem("pokemones");
+      if (pokemones) {
+        pokemones = JSON.parse(pokemones);
+        pokemones = [...pokemones, { ...action.payload }];
+      } else {
+        pokemones = [{ ...action.payload }];  
+      }
+      localStorage.setItem("pokemones", JSON.stringify(pokemones));
+      return [...pokemones];
     default:
-      return state;
+      return [...state];
   }
 };
 

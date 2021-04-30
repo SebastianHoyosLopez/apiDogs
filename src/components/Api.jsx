@@ -1,50 +1,68 @@
 import React from "react";
 import { connect } from "react-redux";
 import { addToCart } from "../redux/actions";
+import Pagination from "rc-pagination";
 
 class Api extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      Dogs: [],
+      Pokemones: [],
+      count: 1,
       isFetch: true,
     };
   }
 
+  onClickHandler() {
+    this.setState({
+      count: this.state.count + 1,
+    });
+  }
+
   componentDidMount() {
-    fetch("https://dog.ceo/api/breed/hound/images")
+    fetch(`https://rickandmortyapi.com/api/character/?page=${this.state.count}`)
       .then((response) => response.json())
-      .then((data) => this.setState({ Dogs: data.message, isFetch: false }));
+      .then((data) => this.setState({ Pokemones: data, isFetch: false }));
+  }
+
+  componentDidUpdate(prevProps) {
+    // Uso tipico (no olvides de comparar las props):
+    if (this.props.Pokemones !== prevProps.Pokemones) {
+      this.fetchData(this.props.Pokemones.info);
+    }
   }
 
   render() {
     if (this.state.isFetch) {
       return "loading...";
     }
-    const dogs = this.state.Dogs;
-    const { cart } = this.props;
-    const { addToCart } = this.props;
 
-    console.log(cart);
-
+    const poke = this.state.Pokemones.results;
+    const pagesInfo = this.state.Pokemones.info;
+    console.log(this.props.cart);
     return (
       <div className="container">
+        <Pagination
+          pageSize={pagesInfo.count}
+          total={pagesInfo?.total}
+          onChange={(page) => this.onClickHandler(this.setState())}
+        />
+        <button onClick={() => this.onClickHandler()}>siguiente</button>
         <div className="row">
-          {dogs.map((dogs, index) => {
+          {poke.map((pokemon) => {
             return (
-              <div key={index} className="col-sm-6 col-lg-3">
+              <div key={pokemon.id} className="col-sm-6 col-lg-3">
                 <div className="card my-2">
                   <img
-                    src={dogs}
+                    src={pokemon.image}
                     className="card-img-top"
                     alt="imagen"
-                    style={{
-                      height: "300px",
-                      objectFit: "cover",
-                    }}
                   />
-                  <button onClick={addToCart()} className="btn btn-dark my-2">
+                  <button
+                    onClick={() => this.props.onAddToCart(pokemon)}
+                    className="btn btn-dark my-2"
+                  >
                     Select
                   </button>
                 </div>
@@ -61,8 +79,10 @@ const mapStateToProps = (state) => ({
   cart: state.cart,
 });
 
-const mapDispatchToProps = {
-  addToCart,
-};
+const mapDispatchToProps = (dispatch) => ({
+  onAddToCart: (item) => {
+    dispatch(addToCart(item));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Api);
