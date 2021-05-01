@@ -7,17 +7,17 @@ class Info extends React.Component {
     this.state = {};
   }
   render() {
-    const pokemones = this.props.cart;
+    const characters = this.props.cart;
     return (
       <div className="container">
         <div className="row">
-          {pokemones.map((pokemon) => {
+          {characters.map((character) => {
             return (
-              <div key={pokemon.id} className="col-sm-6 col-lg-3">
+              <div key={character.id} className="col-sm-6 col-lg-3">
                 <div className="card my-2">
                   <img
                     className="card-img-top"
-                    src={pokemon.image}
+                    src={character.image}
                     alt="pokemon"
                   />
                 </div>
