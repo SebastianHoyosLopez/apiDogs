@@ -8,7 +8,7 @@ class Api extends React.Component {
     super(props);
 
     this.state = {
-      Pokemones: [],
+      characters: [],
       count: 1,
       isFetch: true,
     };
@@ -23,13 +23,15 @@ class Api extends React.Component {
   componentDidMount() {
     fetch(`https://rickandmortyapi.com/api/character/?page=${this.state.count}`)
       .then((response) => response.json())
-      .then((data) => this.setState({ Pokemones: data, isFetch: false }));
+      .then((data) => this.setState({ characters: data, isFetch: false }));
   }
 
-  componentDidUpdate(prevProps) {
-    // Uso tipico (no olvides de comparar las props):
-    if (this.props.Pokemones !== prevProps.Pokemones) {
-      this.fetchData(this.props.Pokemones.info);
+  ckeckSelectState(id) {
+    const exist = this.props.cart.find((item) => item.id === id);
+    if (exist) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -38,19 +40,18 @@ class Api extends React.Component {
       return "loading...";
     }
 
-    const poke = this.state.Pokemones.results;
-    const pagesInfo = this.state.Pokemones.info;
+    const characters = this.state.characters.results;
+    const pagesInfo = this.state.characters.info;
     console.log(this.props.cart);
     return (
-      <div className="container">
+      <div className="container text-center my-4">
         <Pagination
           pageSize={pagesInfo.count}
           total={pagesInfo?.total}
           onChange={(page) => this.onClickHandler(this.setState())}
         />
-        <button onClick={() => this.onClickHandler()}>siguiente</button>
         <div className="row">
-          {poke.map((character) => {
+          {characters.map((character) => {
             return (
               <div key={character.id} className="col-sm-6 col-lg-3">
                 <div className="card my-2">
@@ -62,6 +63,7 @@ class Api extends React.Component {
                   <button
                     onClick={() => this.props.onAddToCart(character)}
                     className="btn btn-dark my-2"
+                    disabled={this.ckeckSelectState(character.id)}
                   >
                     Select
                   </button>

@@ -31,10 +31,10 @@ class App extends React.Component {
   }
   }
 
-  const mapDispatchToProps = () => ({
+  const mapDispatchToProps = (dispatch) => ({
     onLoadCart: () => {
       dispatch(loadCart())
     }
   })
 
-export default connect(mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

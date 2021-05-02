@@ -1,11 +1,27 @@
 import React from "react";
 import { connect } from "react-redux";
+import { characterDelete } from "../redux/actions";
 
 class Info extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      cart: []
+    };
   }
+
+  componentDidMount() {
+    console.log("componentDidMount");
+  }
+
+  componentDidUpdate() {
+    console.log("componentDidUpdate");
+  }
+
+  itemDelete(item) {
+    this.props.onCharacterDelete(item)
+  }
+
   render() {
     const characters = this.props.cart;
     return (
@@ -21,6 +37,14 @@ class Info extends React.Component {
                     alt="pokemon"
                   />
                 </div>
+                <div className="text-center">
+                  <button
+                    onClick={() => this.itemDelete(character.id)}
+                    className="btn btn-warning"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             );
           })}
@@ -34,4 +58,10 @@ const mapStateToProps = (state) => ({
   cart: state.cart,
 });
 
-export default connect(mapStateToProps)(Info);
+const mapDispatchToProps = (dispatch) => ({
+  onCharacterDelete: () => {
+    dispatch(characterDelete());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Info);

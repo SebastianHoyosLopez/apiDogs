@@ -9,3 +9,8 @@ export const loadCart = (payload) => ({
     type: ActionTypes.LOAD_CART,
     payload,
   });
+
+  export const characterDelete = (payload) => ({
+    type: ActionTypes.CHARACTER_DELETE,
+    payload,
+  });

@@ -22,6 +22,14 @@ const cart = (state = initialData, action) => {
         return [...characters];
       }
       return [...state];
+    case ActionTypes.CHARACTER_DELETE:
+      characters = localStorage.getItem("characters");
+      if (characters) {
+        characters = JSON.parse("characters");
+        characters = characters.filter((item) => item.id !== action.payload.id);
+      }
+      localStorage.setItem("characters", JSON.stringify(characters));
+      return [...characters];
     default:
       return [...state];
   }
