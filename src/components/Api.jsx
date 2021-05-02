@@ -58,7 +58,7 @@ class Api extends React.Component {
                   <img
                     src={character.image}
                     className="card-img-top"
-                    alt="imagen"
+                    alt="image"
                   />
                   <button
                     onClick={() => this.props.onAddToCart(character)}
