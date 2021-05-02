@@ -50,17 +50,17 @@ class Api extends React.Component {
         />
         <button onClick={() => this.onClickHandler()}>siguiente</button>
         <div className="row">
-          {poke.map((pokemon) => {
+          {poke.map((character) => {
             return (
-              <div key={pokemon.id} className="col-sm-6 col-lg-3">
+              <div key={character.id} className="col-sm-6 col-lg-3">
                 <div className="card my-2">
                   <img
-                    src={pokemon.image}
+                    src={character.image}
                     className="card-img-top"
                     alt="imagen"
                   />
                   <button
-                    onClick={() => this.props.onAddToCart(pokemon)}
+                    onClick={() => this.props.onAddToCart(character)}
                     className="btn btn-dark my-2"
                   >
                     Select
