@@ -39,7 +39,7 @@ class Info extends React.Component {
                 </div>
                 <div className="text-center">
                   <button
-                    onClick={() => this.itemDelete(character.id)}
+                    onClick={() => this.props.onCharacterDelete(character)}
                     className="btn btn-warning"
                   >
                     Delete
@@ -59,8 +59,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCharacterDelete: () => {
-    dispatch(characterDelete());
+  onCharacterDelete: (character) => {
+    dispatch(characterDelete(character));
   },
 });
 

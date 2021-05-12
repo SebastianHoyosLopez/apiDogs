@@ -42,12 +42,11 @@ class Api extends React.Component {
 
     const characters = this.state.characters.results;
     const pagesInfo = this.state.characters.info;
-    console.log(this.props.cart);
     return (
       <div className="container text-center my-4">
         <Pagination
-          pageSize={pagesInfo.count}
-          total={pagesInfo?.total}
+          pageSize={pagesInfo}
+          total={pagesInfo}
           onChange={(page) => this.onClickHandler(this.setState())}
         />
         <div className="row">
@@ -58,7 +57,7 @@ class Api extends React.Component {
                   <img
                     src={character.image}
                     className="card-img-top"
-                    alt="image"
+                    alt={character.name}
                   />
                   <button
                     onClick={() => this.props.onAddToCart(character)}
